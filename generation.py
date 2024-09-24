@@ -1,5 +1,15 @@
 import pathlib
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+
+
+@dataclass
+class Language:
+    name: str
+    description: str
+    website: str
+    repository: str
+
+    dict = asdict
 
 
 @dataclass

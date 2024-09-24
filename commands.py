@@ -1,5 +1,6 @@
 import pathlib
 import config
+import generation
 
 
 def generate_readme(path: pathlib.Path = config.LANGUAGES_LOCATION):
@@ -14,14 +15,14 @@ def generate_language(params: list = None) -> pathlib.Path:
     if params == None:
         params = interactive()
 
-    language = {s[0]: s[1] for s in list(zip(config.PARAMS_KEYS, params))}
+    language = generation.Language(*params)
     return _dumps(language)
 
 
-def _dumps(content: dict) -> pathlib.Path:
-    path = pathlib.Path(f"langs/{content["name"]}.toml")
+def _dumps(language: generation.Language) -> pathlib.Path:
+    path = pathlib.Path(f"langs/{language.name}.toml")
     with path.open("w") as file:
         file.write("[language]\n")
-        for k, v in content.items():
+        for k, v in language.dict().items():
             file.write(f"{k} = {v}\n")
     return path
